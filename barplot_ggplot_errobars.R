@@ -1,5 +1,5 @@
 #
-# Writen by: Andreé Johnsson <andreejohnsson@outlook.com>
+# Written by: Andreé Johnsson,andreejohnsson@outlook.com
 #
 #
 bar.plot.aj <- function(df, grouping.var, label.vector = NULL) {

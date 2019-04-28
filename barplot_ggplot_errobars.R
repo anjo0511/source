@@ -46,7 +46,6 @@ bar.plot.aj <- function(df, grouping.var, label.vector = NULL) {
 
   return(p.1)
 }
-
 # Example 
 # ex.iris <-
 #     iris %>%

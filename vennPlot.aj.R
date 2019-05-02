@@ -1,4 +1,5 @@
 #
+# Written by: Andreé Johnsson,andreejohnsson@outlook.com
 #
 vennPlot.aj <- function(list.with.names, title) {
     require(RColorBrewer);require(VennDiagram)

@@ -27,10 +27,12 @@ vennPlot.aj <- function(list.with.names, title="") {
     
 }
 #
-# TEST
-# l.1 = list("First"=sample(seq(3200),1),
-#            "Second"=sample(seq(3200),1110),
-#            "Third"=sample(seq(3200),212))
-# 
-# vennPlot.aj(l.1,title = "Venn Diagram Title")
-
+# Example 1
+#
+# library(tidyverse);library(magrittr) 
+# list("Sepal.Length"=iris$Sepal.Length,
+#      "Sepal.Width"=iris$Sepal.Width,
+#      "Petal.Length"=iris$Petal.Length,
+#      "Petal.Width"=iris$Petal.Width) %>% 
+#     vennPlot.aj(title="The Iris Dataframe")
+#

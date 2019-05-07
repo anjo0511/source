@@ -51,5 +51,5 @@ volcano.plot.2 <- function(res.df, title="Volcano Plot", use.labels=FALSE) {
             point.padding = unit(0.8, "lines") 
             )
     }
-    return(p.1)
+    return( list("plot" =p.1, "sig.genes" =res.df.sig) )
 }

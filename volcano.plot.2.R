@@ -6,7 +6,7 @@ volcano.plot.2 <- function(res.df, title="Volcano Plot", use.labels=FALSE) {
     # res.df is a regular df with at least the columns
     # log2FoldChange and padj 
     require(ggplot2);require(ggrepel)
-    res.df %<>% rownames_to_column(var="genes")
+    res.df %<>% as.data.frame() %>% rownames_to_column(var="genes")
     res.df %<>% filter(!is.na(padj))
     res.df %<>% 
         mutate(genes,
@@ -18,13 +18,14 @@ volcano.plot.2 <- function(res.df, title="Volcano Plot", use.labels=FALSE) {
     res.df$Significance %<>% factor(levels =c("Yes","No") )
     
     res.df.sig <- filter(res.df,Significance=="Yes")
-    up.down <-
-        res.df.sig %>%
-        summarise(Up = sum(log2FoldChange>0, na.rm = TRUE),
-                  Down = sum(log2FoldChange<0, na.rm = TRUE) )
+    res.df.sig %<>%
+        transmute(genes,log2FoldChange,padj,direction =
+                   map_chr(log2FoldChange,~ifelse(.x>0,"up","down")))
+    up.down <- table(res.df.sig$direction)
+
     not.sig.label <- paste(c("Not Sig: "),
-                             nrow(res.df)-sum(up.down),
-                             collapse = "")
+                           nrow(res.df)-sum(up.down),
+                           collapse = "")
     up.down <- paste(c("    Up: ","\nDown: "),up.down,collapse = "")
     
     p.1 <- res.df %>% 
@@ -42,14 +43,15 @@ volcano.plot.2 <- function(res.df, title="Volcano Plot", use.labels=FALSE) {
                    linetype="dashed", color = "black") +
         geom_vline(xintercept=c(-log2(2^0.5),log2(2^0.5)),
                    linetype="dashed", color = "black")
-        
+    
     if (use.labels == TRUE) {
         p.1 = p.1 +
             geom_text_repel(data= res.df.sig,
-            aes(label = res.df.sig$genes),
-            box.padding = unit(0.8, "lines"),
-            point.padding = unit(0.8, "lines") 
+                            aes(label = res.df.sig$genes),
+                            box.padding = unit(0.8, "lines"),
+                            point.padding = unit(0.8, "lines") 
             )
     }
     return( list("plot" =p.1, "sig.genes" =res.df.sig) )
 }
+

@@ -26,7 +26,7 @@ volcano.plot.2 <- function(res.df, title="Volcano Plot", use.labels=FALSE) {
     not.sig.label <- paste(c("Not Sig: "),
                            nrow(res.df)-sum(up.down),
                            collapse = "")
-    up.down <- paste(c("    Up: ","\nDown: "),up.down,collapse = "")
+    up.down <- paste(c("    Up: ","\nDown: "),rev(up.down),collapse = "")
     
     p.1 <- res.df %>% 
         ggplot(aes(x =log2FoldChange, y =neg.log.10.padj,
